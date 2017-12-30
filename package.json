@@ -1,0 +1,24 @@
+{
+  "name": "service-dns",
+  "version": "0.0.1",
+  "description": "DNS server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NodeTopia/service-dns.git"
+  },
+  "author": "Tim <mangoraft@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NodeTopia/service-dns/issues"
+  },
+  "homepage": "https://github.com/NodeTopia/service-dns#readme",
+  "dependencies": {
+    "nconf": "^0.10.0",
+    "nodetopia-kue": "git+https://github.com/NodeTopia/Kue.git",
+    "nodetopia-model": "git+https://github.com/NodeTopia/Model.git"
+  }
+}
