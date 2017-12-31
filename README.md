@@ -14,10 +14,10 @@ Add a specific DNS record
 - `name` String DNS record name example.com
 - `type` String DNS record type A,AAAA,CNAME..
 - `data` Object DNS record data
-
-Data example.
+	Data example.
+	SOA record
 	```
-	{//SOA
+	{
 		"id":"randomid",
 		"name":"master.example.com",
 		"ttl":600,
@@ -27,8 +27,10 @@ Data example.
 		"expiration":604800,
 		"minimum":1800
 	}
-
-	{//A
+	```
+	A record
+	```
+	{
 		"id":"randomid",
 		"name":"example.com",
 		"ttl":600,
