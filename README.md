@@ -27,8 +27,7 @@ Data example.
 		"expiration":604800,
 		"minimum":1800
 	}
-	```
-	```
+
 	{//A
 		"id":"randomid",
 		"name":"example.com",
