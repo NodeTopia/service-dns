@@ -3,6 +3,8 @@ DNS service
 
 All jobs that this service use are `kue` processes.
 
+This process can be run in the system.
+
 ## Run
 ```
 node index.js /path/to/config/file.json
