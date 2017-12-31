@@ -9,7 +9,7 @@ node index.js /path/to/config/file.json
 ```
 
 
-##dns.add
+## dns.add
 Add a specific DNS record 
 - `name` String DNS record name example.com
 - `type` String DNS record type A,AAAA,CNAME..
@@ -37,7 +37,7 @@ Add a specific DNS record
 		"data":"127.0.0.1"
 	}
 	```
-##dns.remove
+## dns.remove
 Removes a specific DNS record. Must be the same object structure as when added.
 - `name` String DNS record name example.com
 - `type` String DNS record type A,AAAA,CNAME..
@@ -50,12 +50,12 @@ Removes a specific DNS record. Must be the same object structure as when added.
 		"data":"127.0.0.1"
 	}
 	```
-##dns.clean
+## dns.clean
 No questions asked remove all records with the name and type
 - `name` String DNS record name example.com
 - `type` String DNS record type A,AAAA,CNAME..
 
-##dns.query
+## dns.query
 Query name type data in the redis DB.
 - `name` String DNS record name example.com
 - `type` String DNS record type A,AAAA,CNAME..
