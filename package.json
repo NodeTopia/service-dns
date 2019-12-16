@@ -22,7 +22,7 @@
 		"minio": "^2.0.3",
 		"jerkie": "0.0.6",
 		"mocha": "^5.2.0",
-		"mongoose": "5.1.8",
+		"mongoose": "5.8.1",
 		"node-uuid": "^1.4.8"
 	}
 }
