@@ -1,24 +1,28 @@
 {
-  "name": "service-dns",
-  "version": "0.0.1",
-  "description": "DNS server",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/NodeTopia/service-dns.git"
-  },
-  "author": "Tim <mangoraft@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/NodeTopia/service-dns/issues"
-  },
-  "homepage": "https://github.com/NodeTopia/service-dns#readme",
-  "dependencies": {
-    "nconf": "^0.10.0",
-    "nodetopia-kue": "git+https://github.com/NodeTopia/Kue.git",
-    "nodetopia-model": "git+https://github.com/NodeTopia/Model.git"
-  }
+	"name": "service-org",
+	"version": "0.0.1",
+	"description": "org service",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/NodeTopia/service-org.git"
+	},
+	"author": "Tim <mangoraft@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/NodeTopia/service-org/issues"
+	},
+	"homepage": "https://github.com/NodeTopia/service-org#readme",
+	"dependencies": {
+		"colors": "^1.1.2",
+		"giting": "0.0.7",
+		"minio": "^2.0.3",
+		"jerkie": "0.0.6",
+		"mocha": "^5.2.0",
+		"mongoose": "5.1.8",
+		"node-uuid": "^1.4.8"
+	}
 }

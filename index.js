@@ -1,74 +1,53 @@
-var nconf = require('nconf');
-var path = require('path');
+const Jerkie = require('jerkie');
+const path = require('path');
+const Git = require('giting');
+const http = require('http');
 
-nconf.file({
-	file : path.resolve(process.argv[2])
-});
-nconf.env();
+let service = new Jerkie({
+    redis: process.env.REDIS_URI,
+    name: 'repo',
+    schema: path.resolve(__dirname, './schema'),
+    services: path.resolve(__dirname, './services'),
+    methods: {
+        auth: path.resolve(__dirname, './methods/auth.js'),
+        role: path.resolve(__dirname, './methods/role.js'),
+        //format: path.resolve(__dirname, './methods/format')
+    },
+    start: async function () {
 
-/*
- *Setup Kue jobs
- */
-var kue = require('nodetopia-kue');
-var jobs = kue.jobs;
+        let ctx = this;
 
-/*
- *Setup mongodb store
- */
-var mongoose = require('nodetopia-model').start(nconf.get('mongodb'));
+        this.git = new Git({
+            auth: this.methods.auth,
+            autoCreate: await this.config.get('autoCreate') || true,
+            dir: await this.config.get('dir') || path.resolve(__dirname, './repos')
+        });
 
-var Redis = mongoose.Redis;
+        this.git.perm(this.methods.role);
 
-jobs.process('dns.add', 999, function(job, done) {
 
-	var name = job.data.name.toLowerCase();
-	var type = job.data.type.toUpperCase();
+        this.server = http.createServer(function (req, res) {
 
-	var stringifiedRecord = JSON.stringify(job.data);
+            req.pause();
+            ctx.git.handle(req, res, function () {
+                res.statusCode = 403;
+                return res.end('403 Forbidden');
+            });
+        });
 
-	var recordKey = type + ':' + name;
+        this.server.timeout = await this.config.get('timeout') || 120000;
+        this.server.keepAliveTimeout = this.server.timeout;
 
-	Redis.getDB('dns', function(next) {
-		var db = this;
+        this.server.setTimeout(this.server.timeout, function () {
+            console.log(new Error('Socket time out'));
+        });
 
-		db.rpush(recordKey, stringifiedRecord, function() {
-			db.lrange(recordKey, 0, -1, next);
-		});
-	}, done);
-});
+        this.server.listen(await this.config.get('server:port') || 8083,
+            await this.config.get('git:server:host') || '0.0.0.0');
+    },
+    stop: function () {
 
-jobs.process('dns.remove', 999, function(job, done) {
-	var name = job.data.name.toLowerCase();
-	var type = job.data.type.toUpperCase();
-
-	var stringifiedRecord = JSON.stringify(job.data);
-	var recordKey = type + ':' + name;
-
-	Redis.getDB('dns', function(next) {
-		this.lrem(recordKey, 0, stringifiedRecord, next);
-	}, done);
-});
-
-jobs.process('dns.clean', 999, function(job, done) {
-
-	var name = job.data.name.toLowerCase();
-	var type = job.data.type.toUpperCase();
-
-	var recordKey = type + ':' + name;
-
-	Redis.getDB('dns', function(next) {
-		this.del(recordKey, next);
-	}, done);
+    }
 });
 
-jobs.process('dns.query', 999, function(job, done) {
-	var name = job.data.name.toLowerCase();
-	var type = job.data.type.toUpperCase();
-
-	var recordKey = type + ':' + name;
-
-	Redis.getDB('dns', function(next) {
-		this.lrange(recordKey, 0, -1, next);
-	}, done);
-});
-
+service.start();
